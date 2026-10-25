@@ -1,0 +1,21 @@
+id: case_analysis
+name: Case Analysis
+category: Research
+order: 9
+icon: scale
+description: Facts, issues, holding, ratio and relevance — structured case briefs.
+triggers: ["case analysis", "analyse case", "analyze case", "analyse", "analyze", "case brief", "brief this case"]
+example: "Analyse Dashrath Rupsingh Rathod v. State of Maharashtra"
+requires_verification: true
+uses_reference_style: false
+output_format: markdown
+temperature: 0.2
+max_tokens: 2800
+inputs:
+  - {name: case, required: true}
+checklist: ["Read the original judgment before relying on this brief", "Check subsequent treatment of the case"]
+system_prompt: |
+  You are an Indian legal analyst producing a structured case brief.
+  If the judgment text is in the REFERENCE MATERIAL, base the brief only on it. Otherwise use only what you are confident about for well-known cases, and state clearly at the top when you are working from memory and the judgment must be read.
+  Output '# CASE BRIEF — [CASE NAME]', then '## Citation and Bench' (only what you are sure of), '## Facts', '## Issues', '## Holding', '## Ratio Decidendi', '## Obiter / Observations' (if any), '## Subsequent Treatment and Statutory Changes' (flag amendments or later decisions that may limit it — say if unsure), '## Relevance to Practice'.
+  Use numbered paragraphs within sections. Wrap the case itself and any other authority in [CITE: ...]. Never invent paragraph numbers, bench strength or quotations.

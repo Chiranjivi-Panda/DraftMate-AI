@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 246 243 236;
+  --panel: 255 255 255;
+  --line: 222 214 198;
+  --fg: 17 24 39;
+  --muted: 100 108 125;
+  --accent: 160 115 28;
+}
+.dark {
+  --bg: 7 11 20;
+  --panel: 17 26 46;
+  --line: 38 52 84;
+  --fg: 232 236 245;
+  --muted: 140 152 178;
+  --accent: 230 194 116;
+}
+
+html, body { height: 100%; }
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+::selection { background: rgb(var(--accent) / 0.3); }
+
+@layer components {
+  .glass {
+    background: rgb(var(--panel) / 0.62);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgb(var(--line) / 0.7);
+    box-shadow: 0 10px 40px -18px rgba(0, 0, 0, 0.35);
+  }
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-xl border border-line/70 bg-panel/60 px-3 py-2 text-sm font-medium text-fg transition hover:border-accent/60 hover:bg-panel disabled:pointer-events-none disabled:opacity-40;
+  }
+  .btn-icon {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-xl border border-line/70 bg-panel/60 text-fg/80 transition hover:border-accent/60 hover:text-accent disabled:pointer-events-none disabled:opacity-40;
+  }
+  .btn-gold {
+    @apply inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-gold-300 to-gold-500 px-3.5 py-2 text-sm font-semibold text-ink-950 shadow-[0_8px_30px_-8px_rgba(212,166,74,.6)] transition hover:brightness-110 active:scale-[.98] disabled:pointer-events-none disabled:opacity-40;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line/70 bg-panel/50 px-2.5 py-1 text-[11px] font-medium text-muted;
+  }
+  .label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-muted;
+  }
+}
+
+.scroll-thin { scrollbar-width: thin; scrollbar-color: rgb(var(--line)) transparent; }
+.scroll-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scroll-thin::-webkit-scrollbar-thumb { background: rgb(var(--line)); border-radius: 99px; }
+
+/* ── Animated background ── */
+.bg-grid {
+  background-image:
+    linear-gradient(rgb(var(--line) / 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--line) / 0.35) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+.blob { position: absolute; border-radius: 9999px; filter: blur(90px); opacity: 0.35; animation: blob 22s ease-in-out infinite; }
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60px, -40px) scale(1.15); }
+  66% { transform: translate(-40px, 40px) scale(0.9); }
+}
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgb(var(--accent) / 0.22), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes wave { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+.wave-bar { width: 3px; height: 18px; border-radius: 3px; background: currentColor; transform-origin: center; animation: wave 0.9s ease-in-out infinite; }
+@keyframes gradientX { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+.ring-anim {
+  background: linear-gradient(90deg, #d4a64a, #38bdf8, #a78bfa, #d4a64a);
+  background-size: 200% 100%;
+  animation: gradientX 5s linear infinite;
+}
+@keyframes ringPulse { 0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.55); } 100% { box-shadow: 0 0 0 16px rgba(244, 63, 94, 0); } }
+.mic-live { animation: ringPulse 1.4s ease-out infinite; }
+@keyframes scan { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.scanline { animation: scan 1.4s ease-in-out infinite; }
+
+/* ── Legal paper & editor ── */
+.paper {
+  background: #fffdf8;
+  color: #1c1917;
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 40px 90px -40px rgba(0, 0, 0, 0.55);
+  position: relative;
+  overflow: hidden;
+}
+.legal-doc {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 15.5px;
+  line-height: 1.85;
+  outline: none;
+  padding: 56px 64px 80px;
+  min-height: 560px;
+}
+@media (max-width: 640px) { .legal-doc { padding: 28px 22px 60px; } }
+.legal-doc h1 { font-size: 1.65rem; text-align: center; letter-spacing: 0.16em; font-weight: 700; margin: 0 0 0.5rem; }
+.legal-doc h2 { font-size: 1.2rem; font-weight: 700; margin: 1.4rem 0 0.4rem; }
+.legal-doc h3 { font-size: 1.05rem; font-weight: 700; margin: 1rem 0 0.3rem; }
+.legal-doc p { margin: 0 0 0.85rem; text-align: justify; }
+.legal-doc ul { padding-left: 1.4rem; list-style: disc; margin-bottom: 0.85rem; }
+.legal-doc hr { border: none; border-top: 1px solid #d6cfbf; margin: 1.2rem 0; }
+.legal-doc p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #a8a29e; float: left; height: 0; pointer-events: none;
+}
+.streaming .legal-doc > :last-child::after {
+  content: ""; display: inline-block; width: 2px; height: 1.1em; margin-left: 3px;
+  vertical-align: -0.2em; background: #b8892f; animation: blink 1s steps(1) infinite;
+}
+
+/* ── Citation highlighting ── */
+.cite {
+  cursor: pointer; border-radius: 3px; padding: 0 2px;
+  border-bottom: 2px solid; transition: background 0.35s, box-shadow 0.35s, border-color 0.35s;
+}
+.cite[data-status="pending"] { border-color: #d4a64a; background: rgba(212, 166, 74, 0.16); }
+.cite[data-status="verified"] { border-color: #10b981; background: rgba(16, 185, 129, 0.14); }
+.cite[data-status="partial"] { border-color: #f59e0b; background: rgba(245, 158, 11, 0.18); }
+.cite[data-status="unverified"] { border-color: #f43f5e; background: rgba(244, 63, 94, 0.15); border-bottom-style: wavy; }
+.cite.cite-active { box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.55); background: rgba(56, 189, 248, 0.18); }

@@ -1,0 +1,22 @@
+id: summarisation
+name: Document Summary
+category: Research
+order: 10
+icon: align-left
+description: Faithful executive summaries of long judgments, contracts and orders.
+triggers: ["summar", "tl;dr", "brief summary", "executive summary", "gist"]
+example: "Summarise the uploaded judgment in one page"
+requires_verification: false
+uses_reference_style: false
+output_format: markdown
+temperature: 0.1
+max_tokens: 2000
+inputs:
+  - {name: document, required: true}
+  - {name: length, required: false}
+checklist: ["Compare the summary with the source for omissions", "Confirm dates, amounts and party names"]
+system_prompt: |
+  You are a precise legal summariser.
+  Summarise ONLY the REFERENCE MATERIAL. If none is provided, output a short note asking the user to upload a document — do not summarise from memory or invent content.
+  Output '# SUMMARY — [DOCUMENT TITLE]', then '## In One Paragraph', '## Key Points' (numbered, max 8), '## Parties, Dates and Amounts' (numbered), and '## Operative Part / Outcome'.
+  Be faithful: no new facts, no new authorities, no opinions. Mention authorities only if they appear in the source, wrapped as [CITE: ...]. Respect any length the instruction asks for (default: about one page).

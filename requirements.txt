@@ -1,0 +1,12 @@
+fastapi>=0.110
+uvicorn[standard]>=0.27
+requests>=2.31
+beautifulsoup4>=4.12
+pydantic>=2.6
+rank-bm25>=0.2.2
+python-docx>=1.1
+reportlab>=4.0
+markitdown>=0.0.1
+python-multipart>=0.0.9
+python-dotenv>=1.0.1
+google-genai>=1.0.0

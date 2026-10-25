@@ -1,0 +1,122 @@
+[
+  {
+    "id": "R01",
+    "class": "real_candidate",
+    "citation": "Kesavananda Bharati v. State of Kerala, (1973) 4 SCC 225",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Verify against authoritative reporter; not pre-labelled verified."
+  },
+  {
+    "id": "R02",
+    "class": "real_candidate",
+    "citation": "Maneka Gandhi v. Union of India, (1978) 1 SCC 248",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Verify against authoritative reporter; not pre-labelled verified."
+  },
+  {
+    "id": "R03",
+    "class": "real_candidate",
+    "citation": "Vishaka v. State of Rajasthan, (1997) 6 SCC 241",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Verify against authoritative reporter; not pre-labelled verified."
+  },
+  {
+    "id": "R04",
+    "class": "real_candidate",
+    "citation": "K.S. Puttaswamy v. Union of India, (2017) 10 SCC 1",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Multiple proceedings exist; confirm precise decision."
+  },
+  {
+    "id": "R05",
+    "class": "real_candidate",
+    "citation": "Shreya Singhal v. Union of India, (2015) 5 SCC 1",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Verify against authoritative reporter; not pre-labelled verified."
+  },
+  {
+    "id": "P01",
+    "class": "partial",
+    "citation": "Maneka Gandhi v. Union of India (1978)",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Reporter details omitted."
+  },
+  {
+    "id": "P02",
+    "class": "partial",
+    "citation": "Vishaka v. State of Rajasthan",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Year/reporter omitted."
+  },
+  {
+    "id": "P03",
+    "class": "partial",
+    "citation": "Kesavananda Bharati (1973)",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Incomplete case name and reporter."
+  },
+  {
+    "id": "P04",
+    "class": "partial",
+    "citation": "Section 21",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Act and jurisdiction unspecified."
+  },
+  {
+    "id": "P05",
+    "class": "partial",
+    "citation": "Supreme Court judgment on privacy, 2017",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Description is ambiguous, not a unique citation."
+  },
+  {
+    "id": "F01",
+    "class": "synthetic_negative_candidate",
+    "citation": "Aarav Sharma v. Union of India, (2022) 99 SCC 999",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Synthetic candidate; check authoritative sources before calling nonexistent."
+  },
+  {
+    "id": "F02",
+    "class": "synthetic_negative_candidate",
+    "citation": "National Legal Authority v. Republic of India, (2021) 88 SCC 123",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Synthetic candidate; check authoritative sources before calling nonexistent."
+  },
+  {
+    "id": "F03",
+    "class": "synthetic_negative_candidate",
+    "citation": "Rohan Mehta v. State of Uttar Pradesh, (2024) 77 SCC 456",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Synthetic candidate; check authoritative sources before calling nonexistent."
+  },
+  {
+    "id": "F04",
+    "class": "synthetic_negative_candidate",
+    "citation": "Section 999 of the Constitution of India",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Validate against official constitutional text."
+  },
+  {
+    "id": "F05",
+    "class": "corrupted_candidate",
+    "citation": "Vishaka v. State of Rajasthan, (2099) 6 SCC 241",
+    "expected_identity": "candidate_requires_ground_truth_check",
+    "expected_proposition_support": "not_assessed",
+    "note": "Altered year; compare with canonical record."
+  }
+]

@@ -1,0 +1,44 @@
+# DraftMate CI-lite (GitHub Actions)
+# Copy to .github/workflows/ci.yml
+name: DraftMate CI-lite
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Unit tests (Member 3 + Voice)
+        run: |
+          python -m unittest discover -s tests -v
+          python -c "
+from voice.intent_parser import parse_intent
+from voice.confirm_gate import ConfirmGate
+g = ConfirmGate()
+r = g.process_utterance('verify citations')
+assert r['ok'] and r['state'] in ('executed', 'awaiting_confirm')
+print('Voice gate OK')
+"
+      - name: Import check
+        run: |
+          python -c "from backend.main import app; print('API import OK', app.title)"
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -f docker/Dockerfile -t draftmate:ci .

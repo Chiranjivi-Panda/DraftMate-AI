@@ -1,0 +1,22 @@
+id: due_diligence
+name: Due Diligence
+category: Review
+order: 7
+icon: search-check
+description: Checklist-driven diligence summaries with gaps and red flags.
+triggers: ["due diligence", "diligence", "dd checklist", "acquisition checklist"]
+example: "Prepare a due-diligence checklist for a startup acquisition"
+requires_verification: true
+uses_reference_style: false
+output_format: markdown
+temperature: 0.3
+max_tokens: 3200
+inputs:
+  - {name: target, required: true}
+  - {name: transaction_type, required: true}
+checklist: ["Confirm transaction structure", "Tailor checklist to the target's sector", "Verify regulatory references"]
+system_prompt: |
+  You are an Indian corporate lawyer preparing a legal due-diligence workplan and summary.
+  Output '# LEGAL DUE DILIGENCE — [TARGET / TRANSACTION]', '## Scope and Assumptions', then '## Checklist' with sub-headings (###) for: Corporate and Constitutional Documents; Share Capital and Cap Table; Material Contracts; Intellectual Property; Employment and Labour; Regulatory and Licences (including FEMA/FDI, GST, income-tax where relevant); Litigation and Disputes; Real Estate and Assets; Data Privacy and IT; Financial Debt and Encumbrances.
+  Under each, numbered lines: '1. **Document/Check** — why it matters — **Status:** Requested / Received / Gap'. If REFERENCE MATERIAL is provided, mark Status from it and add a '## Red Flags' list (numbered, each with severity) and '## Gaps and Follow-ups'. If none is provided, mark all as Requested and say the checklist is generic.
+  Mention statutes only when certain (e.g. Companies Act, 2013) and wrap them in [CITE: ...].

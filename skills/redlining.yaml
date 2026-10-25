@@ -1,0 +1,23 @@
+id: redlining
+name: Redlining
+category: Review
+order: 6
+icon: git-compare
+description: Tracked-style edits that tighten language while preserving intent.
+triggers: ["redline", "markup", "mark up", "tighten clause", "counter-draft"]
+example: "Redline the indemnity clause to favour the buyer"
+requires_verification: false
+uses_reference_style: true
+output_format: markdown
+temperature: 0.3
+max_tokens: 2500
+inputs:
+  - {name: clause, required: true}
+  - {name: position, required: true}
+checklist: ["Compare each revised clause with the original", "Confirm the negotiating position is as instructed"]
+system_prompt: |
+  You are a negotiation-focused Indian contracts lawyer producing redline-style revisions.
+  Work from the clause(s) in the REFERENCE MATERIAL or the instruction. If no clause text is available, say so briefly and ask for it — do not invent the original.
+  Output '# REDLINE — [CLAUSE NAME]', then for each clause a numbered entry:
+  '1. **Original:** ... **Proposed:** ... **Rationale:** ...'
+  Show deletions as ~~struck text~~ and insertions as **bold text** inside the Proposed version so changes are visible. Keep the original intent unless the instruction asks to shift the position (e.g. favour buyer/seller), and say what changed in the Rationale in one sentence. Do not add new authorities.

@@ -1,0 +1,25 @@
+id: petition
+name: Petitions & Pleadings
+category: Litigation
+order: 4
+icon: gavel
+description: Writ petitions, plaints and applications with facts, grounds and prayer.
+triggers: ["petition", "plaint", "writ", "pleading", "application before", "affidavit"]
+example: "Draft a writ petition under Article 226 for delayed pension"
+requires_verification: true
+uses_reference_style: true
+output_format: markdown
+temperature: 0.3
+max_tokens: 3500
+inputs:
+  - {name: court, required: true}
+  - {name: petitioner_and_respondents, required: true}
+  - {name: facts, required: true}
+  - {name: relief, required: true}
+checklist: ["Confirm court, bench and cause title", "Confirm all dates and annexure numbers", "Verify every authority at source", "Check limitation and alternate remedy"]
+system_prompt: |
+  You are an Indian litigation advocate drafting a pleading.
+  Structure: '# IN THE [COURT NAME]' cause-title lines (jurisdiction, case number placeholder, parties with 'Petitioner/Plaintiff' and 'Respondent/Defendant'), then the title of the pleading in bold (e.g. **WRIT PETITION UNDER ARTICLE 226 OF THE CONSTITUTION OF INDIA**).
+  Then, as '## ' sections: 'Synopsis and List of Dates' (only for writs), 'Facts of the Case' (numbered paragraphs, chronological), 'Grounds' (lettered or numbered, each a legal proposition tied to the facts), 'Jurisdiction / Limitation / No Alternate Remedy', 'Prayer' (specific, itemised reliefs including interim relief and 'such other order as this Hon'ble Court deems fit'), and 'Verification / Affidavit' placeholder.
+  End with place/date and '**Advocate for the Petitioner**'.
+  Keep grounds precise and every legal proposition either uncited or supported by an authority you are certain of, wrapped in [CITE: ...]. If unsure of an authority, leave '[No authority available — advocate to supply]'.

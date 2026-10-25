@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DraftMate — Voice & Docs Demo</title>
+  <style>
+    :root {
+      --primary: #1A56DB;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    h1 { color: var(--primary); margin-top: 0; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.25rem;
+      border: 1px solid #334155;
+    }
+    .card h2 { margin-top: 0; font-size: 1.1rem; color: #93c5fd; }
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      color: var(--text);
+      padding: 0.75rem;
+      font-size: 0.95rem;
+      resize: vertical;
+    }
+    button {
+      margin-top: 0.5rem;
+      margin-right: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary { background: #475569; }
+    button.danger { background: #dc2626; }
+    #log {
+      font-family: ui-monospace, monospace;
+      font-size: 0.8rem;
+      max-height: 220px;
+      overflow-y: auto;
+      background: #0f172a;
+      padding: 0.75rem;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.75rem; background: #334155; }
+    .status { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div style="max-width:1100px;margin:0 auto 1.5rem;">
+    <h1>DraftMate</h1>
+    <p class="status">AI-assisted legal drafting workspace — Voice Agent, Citation Review & Document Export</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>AI Drafting Studio</h2>
+      <p class="status">Member 2 skill routing + model gateway. Add GEMINI_API_KEY (or supported provider keys) in hosting settings for live LLM output.</p>
+      <input id="draft-instruction" aria-label="Drafting instruction" placeholder="e.g. Draft a legal notice from the facts below" style="width:100%;padding:.75rem;border-radius:8px;background:#0f172a;color:#e2e8f0;border:1px solid #475569;" />
+      <select id="draft-skill" style="width:100%;margin-top:.5rem;padding:.65rem;background:#0f172a;color:#e2e8f0;border:1px solid #475569;border-radius:8px;"><option value="">Auto-select skill</option></select>
+      <button id="btn-draft">Generate draft</button>
+      <pre id="draft-out" style="white-space:pre-wrap;max-height:260px;overflow:auto;background:#0f172a;padding:.75rem;border-radius:8px;"></pre>
+    </div>
+    <div class="card">
+      <h2>Voice Agent</h2>
+      <p class="status">Uses Web Speech API + backend intent parser / confirm gate / action queue.</p>
+      <div id="voice-btn-host"></div>
+      <p style="margin-top:1rem;font-size:0.85rem;color:var(--muted);">
+        Try: “verify citations”, “export as PDF”, “help”, “edit the text to make it formal” (needs confirm).
+      </p>
+      <div id="voice-status" class="status">Idle</div>
+      <div id="log"></div>
+    </div>
+
+    <div class="card">
+      <h2>Document + Export</h2>
+      <textarea id="doc-content"># Sample Legal Memo
+
+This agreement is governed by the laws of the State of Delaware.
+
+According to the court in *Smith v. Jones*, 123 F.3d 456 (2d Cir. 2020), the standard of review is de novo.
+
+The parties shall submit disputes to arbitration under the AAA rules.</textarea>
+      <div>
+        <button id="btn-verify">Verify</button>
+        <button id="btn-export-docx">Export DOCX</button>
+        <button id="btn-export-pdf">Export PDF</button>
+      </div>
+      <div id="verify-out" style="margin-top:1rem;font-size:0.85rem;"></div>
+    </div>
+  </div>
+
+  <script src="/src/voiceAgent.js"></script>
+  <script>
+    const API = window.location.origin;
+    const logEl = document.getElementById("log");
+    const statusEl = document.getElementById("voice-status");
+    function log(msg) {
+      logEl.textContent += msg + "\n";
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    const agent = new DraftMateVoice.VoiceAgent({
+      apiBase: API,
+      onResult: (p) => {
+        if (p.final) log("Heard: " + p.final);
+        if (p.backend) log("→ " + JSON.stringify(p.backend.state) + " | " + (p.backend.speech || ""));
+      },
+      onState: (s) => {
+        statusEl.textContent = s.listening ? "Listening…" : (s.lastAction ? "Last: " + (s.lastAction.state || "") : "Idle");
+      },
+      onError: (e) => log("Error: " + e),
+    });
+
+    if (!agent.supported) {
+      log("Web Speech API not available in this browser (try Chrome).");
+    }
+    DraftMateVoice.createVoiceButton(document.getElementById("voice-btn-host"), agent);
+
+    let lastVerification = null;
+
+    async function loadSkills() {
+      try {
+        const r = await fetch(API + "/api/skills");
+        const data = await r.json();
+        const select = document.getElementById("draft-skill");
+        (data.skills || data || []).forEach(skill => {
+          const opt = document.createElement("option");
+          opt.value = skill.id || skill.skill_id || "";
+          opt.textContent = skill.name || skill.title || skill.id || skill.skill_id || "Skill";
+          select.appendChild(opt);
+        });
+      } catch (e) { log("Skills unavailable: " + e); }
+    }
+    loadSkills();
+
+    document.getElementById("btn-draft").onclick = async () => {
+      const instruction = document.getElementById("draft-instruction").value.trim();
+      const out = document.getElementById("draft-out");
+      if (!instruction) { out.textContent = "Enter a drafting instruction first."; return; }
+      out.textContent = "Generating…";
+      try {
+        const response = await fetch(API + "/api/draft", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ instruction, skill_id: document.getElementById("draft-skill").value || undefined, model: "gemini" })
+        });
+        if (!response.ok) throw new Error(await response.text());
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "", collected = "";
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const frames = buffer.split("\\n\\n"); buffer = frames.pop();
+          for (const frame of frames) {
+            for (const line of frame.split("\\n")) {
+              if (!line.startsWith("data: ")) continue;
+              try {
+                const event = JSON.parse(line.slice(6));
+                if (event.text) collected += event.text;
+                if (event.content) collected += event.content;
+                if (event.delta) collected += event.delta;
+                if (event.type === "error" || event.error) collected += "\\n[Notice] " + (event.error || event.message || "Draft generation issue");
+                out.textContent = collected || JSON.stringify(event, null, 2);
+              } catch (_) {}
+            }
+          }
+        }
+        if (!collected) out.textContent = out.textContent || "No draft text returned. Check configured model API keys.";
+        document.getElementById("doc-content").value = collected || document.getElementById("doc-content").value;
+      } catch (e) { out.textContent = "Draft request failed: " + e.message; }
+    };
+
+    document.getElementById("btn-verify").onclick = async () => {
+      const text = document.getElementById("doc-content").value;
+      const res = await fetch(API + "/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, source_urls: [] }),
+      });
+      if (!res.ok) throw new Error("Verification failed (" + res.status + ")");
+      lastVerification = await res.json();
+      document.getElementById("verify-out").innerHTML =
+        "<span class='badge'>" + lastVerification.overall_status + "</span> " +
+        (lastVerification.citations || []).length + " citation(s)";
+      log("Verification: " + lastVerification.overall_status);
+    };
+
+    async function doExport(fmt) {
+      const content = document.getElementById("doc-content").value;
+      const res = await fetch(API + "/docs/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content,
+          title: "DraftMate Demo",
+          format: fmt,
+          verification: lastVerification,
+        }),
+      });
+      if (!res.ok) throw new Error("Export failed (" + res.status + "): " + await res.text());
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "DraftMate_Demo." + fmt;
+      a.click();
+      log("Exported " + fmt);
+    }
+    document.getElementById("btn-export-docx").onclick = () => doExport("docx");
+    document.getElementById("btn-export-pdf").onclick = () => doExport("pdf");
+  </script>
+</body>
+</html>

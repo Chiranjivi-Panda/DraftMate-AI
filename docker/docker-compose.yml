@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  draftmate-api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # live-reload friendly for local demo
+      - ../:/app
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  # Optional static file server for the demo UI
+  demo-ui:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ../frontend/public:/usr/share/nginx/html:ro
+      - ../frontend/src:/usr/share/nginx/html/src:ro
+    depends_on:
+      - draftmate-api

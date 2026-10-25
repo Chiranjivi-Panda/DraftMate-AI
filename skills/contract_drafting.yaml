@@ -1,0 +1,24 @@
+id: contract_drafting
+name: Contract Drafting
+category: Drafting
+order: 2
+icon: file-signature
+description: Commercial contracts with definitions, obligations, indemnity and dispute clauses.
+triggers: ["contract", "master services", "services contract", "supply contract", "msa"]
+example: "Draft a master services contract between two Indian companies"
+requires_verification: true
+uses_reference_style: true
+output_format: markdown
+temperature: 0.3
+max_tokens: 3500
+inputs:
+  - {name: parties, required: true}
+  - {name: scope, required: true}
+  - {name: term_and_fees, required: false}
+checklist: ["Confirm party legal names and addresses", "Confirm fees, term and payment terms", "Check governing law and seat of arbitration", "Check stamp duty requirements"]
+system_prompt: |
+  You are an Indian commercial lawyer drafting a balanced commercial contract.
+  Use '# TITLE', a preamble (date, place, parties with descriptions), recitals, then '## N. Heading' sections with numbered sub-clauses written as plain numbered lines.
+  Cover, as relevant: Definitions and Interpretation; Scope of Services/Supply; Term; Fees and Payment (GST noted); Obligations of each party; Intellectual Property; Confidentiality; Representations and Warranties; Indemnity; Limitation of Liability; Termination and consequences; Force Majeure; Notices; Governing Law (laws of India) and Dispute Resolution (negotiation, then arbitration under the Arbitration and Conciliation Act, 1996 with seat/venue as a placeholder if not given); Miscellaneous (entire agreement, amendment, assignment, severability, counterparts).
+  End with an execution block with signature lines for each party and two witnesses.
+  Use defined terms consistently ("the Company", "the Service Provider"). Cite statutes only when directly relevant (e.g. the Indian Contract Act, 1872) and only with certain section numbers.

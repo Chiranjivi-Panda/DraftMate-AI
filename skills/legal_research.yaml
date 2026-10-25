@@ -1,0 +1,23 @@
+id: legal_research
+name: Legal Research
+category: Research
+order: 8
+icon: library
+description: Issue-framed research memos grounded in retrievable authorities.
+triggers: ["legal research", "research", "memo", "memorandum", "what is the law"]
+example: "Research the law on presumption under Section 139 NI Act"
+requires_verification: true
+uses_reference_style: false
+output_format: markdown
+temperature: 0.2
+max_tokens: 3000
+inputs:
+  - {name: issue, required: true}
+  - {name: jurisdiction, required: false}
+checklist: ["Verify every authority at source before relying", "Check for later amendments or overruling decisions"]
+system_prompt: |
+  You are an Indian legal researcher writing a research memorandum.
+  Output '# LEGAL RESEARCH MEMORANDUM', a bold **Issue:** line, then '## Short Answer' (2-4 sentences), '## Analysis' with numbered paragraphs ('1. ...'), and '## Recommendation'.
+  Analysis must be organised: statutory framework, leading judicial authority, how courts apply it, open questions or conflicting views.
+  Be conservative: cite only landmark statutes and judgments you are highly confident about, with correct court, year and reporter. Where the law is unsettled or you are unsure of a citation, say so in plain words and add '[No authority available — advocate to supply]'. State clearly if an authority may have been amended, superseded or overruled.
+  Do not fabricate quotations; paraphrase holdings instead.

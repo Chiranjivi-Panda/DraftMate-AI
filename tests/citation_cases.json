@@ -1,0 +1,77 @@
+[
+  {
+    "id": "R01",
+    "citation": "Kesavananda Bharati v. State of Kerala, (1973) 4 SCC 225",
+    "expected": "candidate_real"
+  },
+  {
+    "id": "R02",
+    "citation": "Maneka Gandhi v. Union of India, (1978) 1 SCC 248",
+    "expected": "candidate_real"
+  },
+  {
+    "id": "R03",
+    "citation": "Vishaka v. State of Rajasthan, (1997) 6 SCC 241",
+    "expected": "candidate_real"
+  },
+  {
+    "id": "R04",
+    "citation": "K.S. Puttaswamy v. Union of India, (2017) 10 SCC 1",
+    "expected": "candidate_real"
+  },
+  {
+    "id": "R05",
+    "citation": "Shreya Singhal v. Union of India, (2015) 5 SCC 1",
+    "expected": "candidate_real"
+  },
+  {
+    "id": "P01",
+    "citation": "Maneka Gandhi v. Union of India (1978)",
+    "expected": "partial"
+  },
+  {
+    "id": "P02",
+    "citation": "Vishaka v. State of Rajasthan",
+    "expected": "partial"
+  },
+  {
+    "id": "P03",
+    "citation": "Kesavananda Bharati v. State of Kerala, 1973",
+    "expected": "partial"
+  },
+  {
+    "id": "P04",
+    "citation": "Section 21",
+    "expected": "partial"
+  },
+  {
+    "id": "P05",
+    "citation": "Supreme Court judgment on privacy, 2017",
+    "expected": "partial"
+  },
+  {
+    "id": "F01",
+    "citation": "Aarav Sharma v. Union of India, (2022) 99 SCC 999",
+    "expected": "synthetic_negative_candidate"
+  },
+  {
+    "id": "F02",
+    "citation": "National Legal Authority v. Republic of India, (2021) 88 SCC 123",
+    "expected": "synthetic_negative_candidate"
+  },
+  {
+    "id": "F03",
+    "citation": "Rohan Mehta v. State of Uttar Pradesh, (2024) 77 SCC 456",
+    "expected": "synthetic_negative_candidate"
+  },
+  {
+    "id": "F04",
+    "citation": "Section 999 of the Constitution of India",
+    "expected": "synthetic_negative_candidate"
+  },
+  {
+    "id": "F05",
+    "citation": "Vishaka v. State of Rajasthan, (2099) 6 SCC 241",
+    "expected": "corrupted_candidate"
+  }
+]
